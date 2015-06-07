@@ -34,8 +34,11 @@ public class ConnectFragment extends Fragment {
     //all time is in milliseconds
     long starttime = 0, timestamp = 0;
 
+    //initialize json object
     JSONObject jo = new JSONObject();
-    long duration = 1 * 60000;
+
+    //pretend to get the duration from server
+    long duration = 1 * 60000; //1 min for testing
 	
     /** Called when the activity is first created. */
     @Override
@@ -47,6 +50,7 @@ public class ConnectFragment extends Fragment {
         tv.setText("");
         tv.append("Android version: " + Integer.valueOf(android.os.Build.VERSION.SDK) + "\n" );
 
+        //button for connect
         b1 = (Button) rootView.findViewById(R.id.button1);
         b1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -54,6 +58,7 @@ public class ConnectFragment extends Fragment {
             }
         });
 
+        //button for disconnect
         b2 = (Button) rootView.findViewById(R.id.button2);
         b2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -130,9 +135,13 @@ public class ConnectFragment extends Fragment {
                     e.printStackTrace();
                 }
 
+                //check timeout
                 if(timestamp - starttime >= duration) {
-                    //send json object
+                    //send json object here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+                    //disconnect to the device
                     tgDevice.close();
+                    //clear the json object
                     jo = new JSONObject();
                     Log.v(TAG, "timeout!\n");
                 }
@@ -162,6 +171,8 @@ public class ConnectFragment extends Fragment {
     
     public void doConnect(View view) {
     	if(tgDevice.getState() != TGDevice.STATE_CONNECTING && tgDevice.getState() != TGDevice.STATE_CONNECTED) {
+
+            //set the start time when connecting to the device
             starttime = System.currentTimeMillis();
             tgDevice.connect(rawEnabled);
         }
