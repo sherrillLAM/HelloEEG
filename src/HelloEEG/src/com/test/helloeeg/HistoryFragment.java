@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import android.app.AlertDialog;
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -122,33 +123,14 @@ public class HistoryFragment extends ListFragment {
         adapter = new listviewAdapter(this.getActivity(), list);
         lview.setAdapter(adapter);
         //registerForContextMenu(getListView());
+        lview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.add(R.id.fragment_container,  new Graph());
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
     }
 
-    /*
-    protected void onListItemClick(ListView l, View v, int position, long id){
-        super.onListItemClick(l, v, position, id);
-
-        Cursor c = mDbHelper.getAll();
-
-        c.moveToLast();
-        for (int i = 1; i<=position; i++){
-            c.moveToPrevious();
-        }
-
-        String dt = c.getString(0);
-        String hr = c.getString(1);
-        String filepath = c.getString(2);
-        String device = c.getString(3);
-        String status = c.getString(4);
-        c.close();
-
-        Intent i = new Intent(this, Graph.class);
-        i.putExtra("dt", dt);
-        i.putExtra("hr", hr);
-        i.putExtra("filepath", filepath);
-        i.putExtra("device", device);
-        i.putExtra("status", status);
-        startActivity(i);
-    }
-    */
 }
